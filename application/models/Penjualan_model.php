@@ -48,5 +48,21 @@ class Penjualan_model extends CI_Model
 			ORDER BY jumlah DESC");
 		$result = $query->result();
 		return $result;
-	}	
+	}
+	
+	public function getJumlahProdukTerjual(){
+		$query = $this->db->query("
+			SELECT
+				a.`productid` as id,
+				b.`productname` as name,
+				COUNT(a.id) as jumlah
+			FROM `ord_products` a
+			LEFT JOIN `prod_products` b ON b.`id` = a.`productid`
+			LEFT JOIN `prod_ref_category` c ON c.`id` = b.`catid`
+			GROUP BY a.`productid`
+			ORDER BY jumlah desc
+		");
+		$result = $query->result();
+		return $result;
+	}
 }
